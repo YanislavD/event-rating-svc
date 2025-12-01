@@ -38,9 +38,6 @@ public class Rating {
     @Column(nullable = false)
     private Integer score; 
 
-    @Column(length = 500)
-    private String comment;
-
     @Column(nullable = false)
     private LocalDateTime createdOn;
 

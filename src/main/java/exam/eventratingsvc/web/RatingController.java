@@ -4,15 +4,12 @@ import exam.eventratingsvc.service.RatingService;
 import exam.eventratingsvc.web.dto.EventRatingSummaryResponse;
 import exam.eventratingsvc.web.dto.RatingRequest;
 import exam.eventratingsvc.web.dto.RatingResponse;
-import exam.eventratingsvc.web.dto.RatingUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,19 +30,6 @@ public class RatingController {
     public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
         RatingResponse response = ratingService.createRating(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<RatingResponse> updateRating(@PathVariable UUID id,
-                                                       @Valid @RequestBody RatingUpdateRequest request) {
-        RatingResponse response = ratingService.updateRating(id, request);
-        return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRating(@PathVariable UUID id) {
-        ratingService.deleteRating(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/event/{eventId}")

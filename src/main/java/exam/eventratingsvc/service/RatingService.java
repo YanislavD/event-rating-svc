@@ -5,7 +5,6 @@ import exam.eventratingsvc.repository.RatingRepository;
 import exam.eventratingsvc.web.dto.EventRatingSummaryResponse;
 import exam.eventratingsvc.web.dto.RatingRequest;
 import exam.eventratingsvc.web.dto.RatingResponse;
-import exam.eventratingsvc.web.dto.RatingUpdateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +33,6 @@ public class RatingService {
                 .eventId(request.getEventId())
                 .userId(request.getUserId())
                 .score(request.getScore())
-                .comment(request.getComment())
                 .createdOn(now)
                 .updatedOn(now)
                 .build();
@@ -45,31 +43,6 @@ public class RatingService {
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             throw new IllegalArgumentException("Потребителят вече е гласувал за това събитие");
         }
-    }
-
-    @Transactional
-    public RatingResponse updateRating(UUID ratingId, RatingUpdateRequest request) {
-        Rating rating = ratingRepository.findById(ratingId)
-                .orElseThrow(() -> new IllegalArgumentException("Rating not found"));
-
-        if (request.getScore() != null) {
-            rating.setScore(request.getScore());
-        }
-        if (request.getComment() != null) {
-            rating.setComment(request.getComment());
-        }
-        rating.setUpdatedOn(LocalDateTime.now());
-
-        Rating saved = ratingRepository.save(rating);
-        return toResponse(saved);
-    }
-
-    @Transactional
-    public void deleteRating(UUID ratingId) {
-        if (!ratingRepository.existsById(ratingId)) {
-            throw new IllegalArgumentException("Rating not found");
-        }
-        ratingRepository.deleteById(ratingId);
     }
 
     @Transactional(readOnly = true)
@@ -104,7 +77,6 @@ public class RatingService {
                 .eventId(rating.getEventId())
                 .userId(rating.getUserId())
                 .score(rating.getScore())
-                .comment(rating.getComment())
                 .createdOn(rating.getCreatedOn())
                 .updatedOn(rating.getUpdatedOn())
                 .build();
