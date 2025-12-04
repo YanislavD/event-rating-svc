@@ -201,9 +201,49 @@ GET /ratings/event/{eventId}/user/{userId}
 - Грешки (на ERROR/WARN ниво)
 - Constraint violations (на WARN ниво)
 
-## 🧪 Тестване
+## 🧪 Testing
 
-За тестване на API endpoints можеш да използваш:
+Микросървисът включва изчерпателни тестове, които покриват всички изисквания:
+
+### Test Coverage
+- **Line Coverage: 83.3%** (45 покрити, 9 пропуснати реда)
+- **Instructions Coverage: 76%**
+- **Branches Coverage: 50%**
+- **Methods Coverage: 69.2%** (9 покрити, 4 пропуснати)
+- **Classes Coverage: 100%** (4 покрити класа)
+
+### Unit Tests
+- **RatingServiceTest** (2 теста) - Тества бизнес логиката на RatingService
+  - `createRating_WhenRatingDoesNotExist_ShouldCreateRating`
+  - `getRatingsForEvent_WhenRatingsExist_ShouldReturnSummary`
+
+### Integration/API Tests
+- **RatingControllerIntegrationTest** (2 теста) - Тества RatingController с реална база
+  - `createRating_WithValidRequest_ShouldReturnCreated` (API test)
+  - `getRatingsForEvent_WhenRatingsExist_ShouldReturnSummary` (Integration test)
+
+**Общо тестове:** 5 (всички минават успешно)
+
+### Технологии за тестване
+- **JUnit 5** - За писане на тестове
+- **Mockito** - За мокиране на dependencies в unit тестове
+- **Spring Boot Test** - За integration тестове с реална база
+- **MockMvc** - За тестване на HTTP заявки в API тестове
+- **JaCoCo** - За измерване на code coverage
+
+### Стартиране на тестовете
+```bash
+# Стартиране на всички тестове
+mvn clean test
+
+# Генериране на coverage репорт
+mvn clean test jacoco:report
+
+# Coverage репортът се намира в: target/site/jacoco/index.html
+```
+
+### Ръчно тестване на API endpoints
+За ръчно тестване на API endpoints можеш да използваш:
 - Postman
 - cURL
 - HTTP файл (Rating.http) в проекта
